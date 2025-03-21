@@ -1,7 +1,4 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:open_document/my_files/init.dart';
 
 class MyFilesItems extends StatelessWidget {
@@ -26,7 +23,8 @@ class MyFilesItems extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final title = item.path.split("/").last;
+    var char = Platform.isWindows ? "\\" : "/";
+    final title = item.path.split(char).last;
     bool isDirectory = item.statSync().type.toString() == 'directory';
     bool isZipFile = title.split('.').last == 'zip';
     return InkWell(
@@ -47,9 +45,7 @@ class MyFilesItems extends StatelessWidget {
 
   BoxDecoration buildBoxDecorationLine() {
     return BoxDecoration(
-      border: Border(
-        bottom: BorderSide(color: Colors.black12, width: 1),
-      ),
+      border: Border(bottom: BorderSide(color: Colors.black12, width: 1)),
     );
   }
 
@@ -101,20 +97,18 @@ class MyFilesItems extends StatelessWidget {
       width: isShare ? 30 : 0,
       height: isShare ? 30 : 0,
       alignment: Alignment.center,
-      margin: EdgeInsets.only(
-        right: 10,
-        left: 14,
-      ),
+      margin: EdgeInsets.only(right: 10, left: 14),
       decoration: buildBoxDecorationChecked(),
       child: buildCheckIcon(
-          isChecked: CustomFileSystemEntity().map[item] ?? false),
+        isChecked: CustomFileSystemEntity().map[item] ?? false,
+      ),
     );
   }
 
   BoxDecoration buildBoxDecorationChecked() {
     return BoxDecoration(
-      border: Border.all(color: Colors.black26, width: 0.5),
-      color: Colors.black12,
+      border: Border.all(color: StyleMyFile.checkBoxBorder, width: 0.5),
+      color: StyleMyFile.checkBoxBackground,
     );
   }
 
@@ -123,15 +117,10 @@ class MyFilesItems extends StatelessWidget {
       child: Icon(
         Icons.check,
         size: 24,
-        color: isChecked ? Colors.lightBlue : Colors.transparent,
+        color: isChecked
+            ? StyleMyFile.checkBoxIconColorActive
+            : StyleMyFile.checkBoxIconColorNotActive,
       ),
     );
   }
-}
-
-/// Ex: 06/05/2020 3:04:00 PM (en) or 05/06/2020 15:04:00 (pt-BR)
-String convertDaTeyMdAddJMS(DateTime date) {
-//  LocaleMyFile();
-  // Intl.defaultLocale = "pt-BR";
-  return DateFormat.yMd().add_jms().format(date);
 }

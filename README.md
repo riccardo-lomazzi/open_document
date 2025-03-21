@@ -52,7 +52,7 @@ Create folder em Document
 
     final name = await OpenDocument.getNameFile(url: url);
 
-    final path = await OpenDocument.getPathDocument(folderName: "example");
+    final path = await OpenDocument.getPathDocument();
 
     filePath = "$path/$name";
 
@@ -65,8 +65,9 @@ Create folder em Document
 
     await OpenDocument.openDocument(filePath: filePath);
 
-    } on PlatformException catch (e) {
-      debugPrint("ERROR: message_${e.message} ---- detail_${e.details}");
+    } on OpenDocumentException catch (e) {
+      debugPrint("ERROR: ${e.errorMessage}");
+      filePath = 'Failed to get platform version.';
     }
 
     Future<String> downloadFile({String filePath, String url}) async {
@@ -99,7 +100,7 @@ of Viewing Your Screen with Your Files
 ---
 
     pushScreen() async {
-      String name = await OpenDocument.getNameFolder(widowsFolder: "Example");
+      String name = await OpenDocument.getNameFolder();
 
         Navigator.of(context).push(
         MaterialPageRoute(

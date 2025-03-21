@@ -1,61 +1,33 @@
 import 'dart:async';
-import 'dart:io';
+import 'open_document_platform_interface.dart';
 
-import 'package:flutter/services.dart';
-import 'package:open_document/windows_fun.dart';
-
+///- Serves to create a local folder with the name of the app
+///- Storage of documents and files
+///- It has the power to open the zip creating a new folder with
+/// the name of the file using the plugin [Archive]
 class OpenDocument {
-  static const MethodChannel _channel = const MethodChannel('open_document');
-
+  /// - Open the document by the indicated path [filePath],
   static Future<void> openDocument({required String filePath}) async {
-    try {
-      if (Platform.isWindows) return await openDocumentWindows(path: filePath);
-      return await _channel.invokeMethod('openDocument', filePath);
-    } on PlatformException catch (e) {
-      throw OpenDocumentException(e.stacktrace.toString());
-    }
+    return await OpenDocumentPlatform.instance.openDocument(filePath: filePath);
   }
 
-  static Future<String> getPathDocument({required String folderName}) async {
-    try {
-      if (Platform.isWindows)
-        return await getPathFolderWindows(folder: folderName);
-      return await _channel.invokeMethod('getPathDocument', folderName);
-    } on PlatformException catch (e) {
-      throw OpenDocumentException(e.stacktrace.toString());
-    }
+  /// - Return path folder
+  static Future<String> getPathDocument() async {
+    return await OpenDocumentPlatform.instance.getPathDocument();
   }
 
-  static Future<String> getNameFolder({String? widowsFolder}) async {
-    try {
-      if (Platform.isWindows) return widowsFolder ?? "";
-      return await _channel.invokeMethod('getNameFolder');
-    } on PlatformException catch (e) {
-      throw OpenDocumentException(e.stacktrace.toString());
-    }
+  /// - Get the folder name is the same as the application
+  static Future<String> getNameFolder() async {
+    return await OpenDocumentPlatform.instance.getNameFolder();
   }
 
+  /// - Get the url name
   static Future<String> getNameFile({required String url}) async {
-    try {
-      if (Platform.isWindows) return url.split("/").last;
-      return await _channel.invokeMethod('getName', url);
-    } on PlatformException catch (e) {
-      throw OpenDocumentException(e.stacktrace.toString());
-    }
+    return await OpenDocumentPlatform.instance.getNameFile(url: url);
   }
 
-  static Future<bool> checkDocument({required String filePath}) async {
-    try {
-      if (Platform.isWindows) return await hasFolderWindows(path: filePath);
-      return await _channel.invokeMethod('checkDocument', filePath);
-    } on PlatformException catch (e) {
-      throw OpenDocumentException(e.stacktrace.toString());
-    }
+  /// - Check if the path already exists in document folder [filePath]
+  static checkDocument({required String filePath}) {
+    return OpenDocumentPlatform.instance.checkDocument(filePath: filePath);
   }
-}
-
-class OpenDocumentException implements Exception {
-  final String errorMessage;
-
-  OpenDocumentException(this.errorMessage);
 }

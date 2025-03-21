@@ -3,11 +3,10 @@ description: Demonstrates how to use the open_document plugin.
 homepage: https://github.com/fabio21/open_document.git
 repository: https://github.com/fabio21/open_document.git
 version: 0.0.1
-
-publish_to: 'none'
+publish_to: "none"
 
 environment:
-  sdk: ">=2.12.0 <3.0.0"
+  sdk: ">=2.17.0 <3.0.0"
 
 dependencies:
   flutter:
@@ -16,12 +15,9 @@ dependencies:
   open_document:
     path: ../
 
-  cupertino_icons: ^1.0.5
-  dio: ^4.0.0-beta7
-  permission_handler: ^10.0.0
-  wakelock: ^0.6.2
-dependency_overrides:
-  platform: ^3.1.0
+  cupertino_icons: ^1.0.6
+  dio: ^5.8.0
+  permission_handler: ^11.4.0
 
 dev_dependencies:
   flutter_test:

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:open_document/my_files/model/custom_file_system_entity.dart';
-import 'package:open_document/my_files/model/style_my_file.dart';
+
+import '../init.dart';
 
 class ButtonShare extends StatelessWidget {
- final Function onClick;
+  final Function onClick;
 
   const ButtonShare({Key? key, required this.onClick}) : super(key: key);
   @override
@@ -44,7 +44,7 @@ class ButtonShare extends StatelessWidget {
   ButtonStyle shape(bool enable) {
     return ElevatedButton.styleFrom(
         elevation: 8,
-        primary: enable
+        backgroundColor: enable
             ? StyleMyFile.elevatedButtonEnable
             : StyleMyFile.elevatedButtonDisable,
         textStyle: buildTextStyle(enable),

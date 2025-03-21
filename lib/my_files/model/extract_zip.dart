@@ -1,55 +1,33 @@
-import 'dart:io';
 import 'package:archive/archive.dart';
 import 'package:archive/archive_io.dart';
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:open_document/my_files/init.dart';
 
+/// Extrair arquivo zip local folder and create new arquivo or new folder archive
+void extractZip({required String path, required Function updateFilesList}) {
+  /// Read the Zip file from disk.
+  try {
+    final char = Platform.isWindows ? "\\" : "/";
+    var nameZip = path.split(char).last;
 
- void extractZip({required String path, required String lastPath, required Function updateFilesList })  {
-    // Read the Zip file from disk.
-    try {
-      final bytes = File(path).readAsBytesSync();
-      final archive = ZipDecoder().decodeBytes(bytes);
-      // Extract the contents of the Zip archive to disk.
-      for (final file in archive) {
-        final filename = file.name;
-        if (file.isFile) {
-          final data = file.content as List<int>;
-          File("$lastPath/$filename")..createSync(recursive: true)..writeAsBytesSync(data);
-        } else {
-          Directory("$lastPath/$filename")..create(recursive: true);
-        }
+    final bytes = File(path).readAsBytesSync();
+    final archive = ZipDecoder().decodeBytes(bytes);
+    var pathLast = path.replaceAll(nameZip, "");
+
+    /// Extract the contents of the Zip archive to disk.
+    for (final file in archive) {
+      final filename = file.name;
+      if (file.isFile) {
+        final data = file.content as List<int>;
+        File("$pathLast$filename")
+          ..createSync(recursive: true)
+          ..writeAsBytesSync(data);
+      } else {
+        Directory("$pathLast$filename")..create(recursive: true);
       }
-    } catch (e) {
-      debugPrint(e.toString());
     }
-    updateFilesList();
+  } catch (e) {
+    debugPrint(e.toString());
   }
-
-
-// unzipFile(String path) async {
-//   final zipFile = File(path);
-//   final zipFolder = zipFile.path.split('/').last.split('.').first;
-//   final destinationDir = Directory("${lastPaths.last}/$zipFolder");
-//   logShow("DESTINATION_FOLDER: $destinationDir");
-//
-//   try {
-//     await ZipFile.extractToDirectory(
-//         zipFile: zipFile,
-//         destinationDir: destinationDir,
-//         onExtracting: (zipEntry, progress) {
-//           logShow('progress: ${progress.toStringAsFixed(1)}%');
-//           logShow('name: ${zipEntry.name}');
-//           logShow('isDirectory: ${zipEntry.isDirectory}');
-//           logShow(
-//               'modificationDate: ${zipEntry.modificationDate.toLocal().toIso8601String()}');
-//           logShow('uncompressedSize: ${zipEntry.uncompressedSize}');
-//           logShow('compressedSize: ${zipEntry.compressedSize}');
-//           logShow('compressionMethod: ${zipEntry.compressionMethod}');
-//           logShow('crc: ${zipEntry.crc}');
-//           return ExtractOperation.extract;
-//         });
-//   } catch (e) {
-//     logShow(e);
-//   }
-//   updateFilesList();
-// }
+  updateFilesList();
+}

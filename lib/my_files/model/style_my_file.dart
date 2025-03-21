@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+/// - Customize the components displayed on the screen
+/// - This file is a singleton, change the inner elements before calling screen [MyFilesScreen]
 class StyleMyFile {
   static final StyleMyFile _instance = StyleMyFile._internal();
 
@@ -14,13 +16,12 @@ class StyleMyFile {
 
   static Color backgroundHeader = Colors.blueGrey.shade500;
   static Color textColorHeader = Colors.white;
-  static double heightHeader  = 50.0;
+  static double heightHeader = 50.0;
 
   static String snackBarSuccessfullyDeleted = 'successfully';
   static String snackBarDeletingError = 'error';
   static Color snackBarSuccessColor = Colors.black12;
   static Color snackBarErrorColor = Colors.red.shade800;
-
 
   static Widget myFileDialogAlertFolder = Text('delete folder');
   static Widget myFileDialogAlertFile = Text('delete file');
@@ -80,12 +81,13 @@ class StyleMyFile {
   );
 
   static IconSlideActionModel iconSlideActionModel = IconSlideActionModel(
-      color: Colors.red.shade900,
-      icon: Icons.delete,
-      foregroundColor: Colors.white);
+    color: Colors.red.shade900,
+    icon: Icons.delete,
+    foregroundColor: Colors.white,
+  );
 
   static OutlinedBorder elevatedButtonShape = RoundedRectangleBorder(
-  borderRadius: new BorderRadius.circular(16.0),
+    borderRadius: new BorderRadius.circular(16.0),
   );
 
   static Color elevatedButtonEnable = Colors.blue.shade800;
@@ -95,6 +97,11 @@ class StyleMyFile {
   static double elevatedButtonTextStyleFontSize = 16.0;
   static String elevatedButtonTextCancel = "Cancel";
   static String elevatedButtonText = "Share";
+
+  static Color checkBoxBorder = Colors.black26;
+  static Color checkBoxBackground = Colors.black12;
+  static Color checkBoxIconColorActive = Colors.lightBlue;
+  static Color checkBoxIconColorNotActive = Colors.transparent;
 
   StyleMyFile._internal();
 }
